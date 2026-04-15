@@ -13,7 +13,7 @@ file(MAKE_DIRECTORY ${SHADER_BIN})
 
 function(glsl_to_spv NAME STAGE) # STAGE=vert|frag|comp
     set(IN_GLSL ${SHADER_SRC}/${NAME}.${STAGE})
-    set(OUT_SPV ${SHADER_BIN}/${NAME}.${STAGE}.spv)  # <-- změna
+    set(OUT_SPV ${SHADER_BIN}/${NAME}.${STAGE}.spv)
     add_custom_command(
             OUTPUT ${OUT_SPV}
             COMMAND ${GLSLC} -fshader-stage=${STAGE} -O -o ${OUT_SPV} ${IN_GLSL}
@@ -34,7 +34,7 @@ endfunction()
 #         DEPENDS ${shader_vert_SPV} ${shader_frag_SPV}
 #         ${particle_vert_SPV} ${particle_frag_SPV})
 
-set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/dependencies/imgui)
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/dependencies/IMGUI)
 
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui.cpp
@@ -46,13 +46,21 @@ set(IMGUI_SOURCES
 set(IMGUI_BACKENDS
         ${IMGUI_DIR}/backends/imgui_impl_sdl3.cpp
         ${IMGUI_DIR}/backends/imgui_impl_sdlgpu3.cpp
-        src/graphics/UI.cc
-        src/graphics/UI.h
-        src/graphics/render_passes/imgui_pass.h
-        src/graphics/particle_system.cc
-        src/graphics/particle_system.h
-        src/graphics/render_passes/copy_pass.h
-        src/core/utils.h
+        src/core/spectra_app.cc
+        src/core/spectra_app.h
+        src/graphics/Renderer.cc
+        src/graphics/Renderer.h
+        src/graphics/gpu_context.cc
+        src/graphics/gpu_context.h
+        src/graphics/ui.cc
+        src/graphics/ui.h
+        #        src/graphics/UI.cc
+#        src/graphics/UI.h
+#        src/graphics/render_passes/imgui_pass.h
+#        src/graphics/particle_system.cc
+#        src/graphics/particle_system.h
+#        src/graphics/render_passes/copy_pass.h
+#        src/core/utils.h
 )
 
 add_executable(Spectra
@@ -62,7 +70,6 @@ add_executable(Spectra
 )
 
 target_sources(Spectra PRIVATE
-        src/main.cc
         # demo
         ${IMGUI_DIR}/imgui_demo.cpp
 )
@@ -82,6 +89,8 @@ set(SDLSHADERCROSS_VENDORED ON CACHE BOOL "" FORCE)
 set(SDLSHADERCROSS_TESTS OFF CACHE BOOL "" FORCE)
 set(SDLSHADERCROSS_DXC OFF CACHE BOOL "" FORCE)
 set(SDLSHADERCROSS_CLI OFF CACHE BOOL "" FORCE)
+set(SDLSHADERCROSS_SHARED OFF CACHE BOOL "" FORCE)
+set(SDLSHADERCROSS_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(dependencies/SDL_shadercross)
 
 add_subdirectory(dependencies/GLM)
@@ -97,7 +106,7 @@ set(SDLSHADERCROSS_VENDORED ON CACHE BOOL "" FORCE)
 
 target_link_libraries(Spectra PRIVATE
         SDL3::SDL3
-        SDL3_shadercross-static
+        SDL3_shadercross::SDL3_shadercross-static
         glm::glm
 )
 
