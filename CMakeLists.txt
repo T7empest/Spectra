@@ -54,6 +54,9 @@ set(IMGUI_BACKENDS
         src/graphics/gpu_context.h
         src/graphics/ui.cc
         src/graphics/ui.h
+        src/graphics/render-pass/imgui_pass.h
+        src/graphics/render-pass/geometry_pass.h
+        src/graphics/render-pass/lighting_pass.h
         #        src/graphics/UI.cc
 #        src/graphics/UI.h
 #        src/graphics/render_passes/imgui_pass.h

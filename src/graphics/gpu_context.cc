@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <string>
 
+// creates a device otherwise throws
+// and attempts to claim the window for the device otherwise thr
 GPUContext::GPUContext(SDL_Window* window)
 	: window_(window)
 {

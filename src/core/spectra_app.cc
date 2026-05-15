@@ -32,6 +32,11 @@ namespace SpectraCore
 	{
 		prev_ns_ = now_ns_;
 		calculate_dt();
+
+		SDL_GPUCommandBuffer* cmd = gpu_context_->begin_cmd();
+		renderer_->update(cmd);
+		renderer_->render(cmd);
+		gpu_context_->end_cmd(cmd);
 	}
 
 	bool SpectraApp::handle_event(const SDL_Event& event)
